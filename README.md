@@ -43,17 +43,17 @@ $ git clone git@github.com:laowalter/astronvimUserCustom.git ~/.config/nvim/lua/
   :TSInstall python
   ```
 3. Custom config in ~/.config/nvim/lua/user/init.lua
-
+  
   See the init.lua line between 192 and 204.
 
 ### Feature
 
-  - File explorer with *Neo-tree*
-  - Autocompletion with *Cmp*
-  - Git integration with *Gitsigns*
-  - Statusline with *Heirline*
-  - Terminal with *Toggleterm%
-  - Fuzzy finding with *Telescope%
-  - Syntax highlighting with *Treesitter*
-  - Formatting and linting with *Null-ls*
+  - File explorer with **Neo-tree**
+  - Autocompletion with **Cmp**
+  - Git integration with **Gitsigns**
+  - Statusline with **Heirline**
+  - Terminal with **Toggleterm**
+  - Fuzzy finding with **Telescope**
+  - Syntax highlighting with **Treesitter**
+  - Formatting and linting with **Null-ls**
   - Language Server Protocol with *Navtive lspConfig*
