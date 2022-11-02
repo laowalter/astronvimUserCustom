@@ -57,3 +57,29 @@ $ git clone git@github.com:laowalter/astronvimUserCustom.git ~/.config/nvim/lua/
   - Syntax highlighting with **Treesitter**
   - Formatting and linting with **Null-ls**
   - Language Server Protocol with *Navtive lspConfig*
+
+### mysetup
+
+MasonInstall python-lsp-serverMason 
+MasonInstall lua-language-server
+
+
+### Understanding Manual[https://astronvim.github.io/Recipes/advanced_lsp]
+
+```
+return {
+}
+```
+
+in user/init.lua means:
+
+
+```
+local config = {
+
+}
+return config
+```
+
+
+After Install flake8, with LspInfo can show null-ls worked as an attach server.
