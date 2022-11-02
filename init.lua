@@ -147,16 +147,22 @@ local config = {
           -- "go",
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
-          -- "python",
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
         -- "sumneko_lua",
       },
       timeout_ms = 1000, -- default format timeout
-      -- filter = function(client) -- fully override the default formatting function
-      --   return true
-      -- end
+
+      -- fully override the default formatting function
+      -- null-ls can be python lsp, disable it. only for javascript
+      filter = function(client)
+        if vim.bo.filetype == "javascript" then
+          return client.name == "null-ls"
+        end
+
+        return true
+      end
     },
     -- easily add or disable built in mappings added during LSP attaching
     mappings = {
@@ -186,7 +192,7 @@ local config = {
             }
           }
         }
-      }
+      },
       -- example for addings schemas to yamlls
       -- yamlls = { -- override table for require("lspconfig").yamlls.setup({...})
       --   settings = {
@@ -270,7 +276,7 @@ local config = {
     },
     -- use mason-lspconfig to configure LSP installations
     ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
-      -- ensure_installed = { "sumneko_lua" },
+      ensure_installed = { "sumneko_lua", "pylsp" },
     },
     -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
     ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
