@@ -240,6 +240,10 @@ local config = {
 
                         -- You can also add new plugins here as well:
                         -- Add plugins, the packer syntax without the "use"
+
+                        -- ref 1. https://astronvim.github.io/configuration/splitting_up
+                        -- ref 2. https://astronvim.github.io/Configuration/config_option
+                        { "tmhedberg/SimpylFold" },
                         -- { "andweeb/presence.nvim" },
                         -- {
                         --   "ray-x/lsp_signature.nvim",
