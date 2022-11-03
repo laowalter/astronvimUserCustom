@@ -137,7 +137,8 @@ local config = {
         lsp = {
                 -- enable servers that you already have installed without mason
                 servers = {
-                        "gopls"
+                        "gopls",
+                        "pylsp"
                 },
                 formatting = {
                         -- control auto formatting on save
