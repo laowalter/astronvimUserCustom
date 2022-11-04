@@ -225,6 +225,18 @@ local config = {
                         ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
                         -- quick save
                         -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+
+                        -- dap (debug) config
+                        ["<F5>"] = { "<Cmd>lua require'dap'.continue()<CR>", desc = "Start debugging" },
+                        ["<F10>"] = { "<Cmd>lua require'dap'.step_over()<CR>", desc = "Step over" },
+                        ["<F11>"] = { "<Cmd>lua require'dap'.step_into()<CR>", desc = "Step into" },
+                        ["<F12>"] = { "<Cmd>lua require'dap'.step_out()<CR>", desc = "Step out" },
+                        ["<Leader>b"] = { "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", desc = "Toggle break" },
+                        ["<Leader>B"] = { "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+                                desc = "Set breakpoint condition" },
+                        ["<Leader>lp"] = { "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
+                                desc = "Log point message" },
+                        ["<Leader>dl"] = { " <Cmd>lua require'dap'.run_last()<CR>", desc = "Run last" }
                 },
                 t = {
                         -- setting a mapping to false will disable it
@@ -239,27 +251,10 @@ local config = {
                         -- ["goolord/alpha-nvim"] = { disable = true },
 
                         -- You can also add new plugins here as well:
-                        -- Add plugins, the packer syntax without the "use"
-
-                        -- ref 1. https://astronvim.github.io/configuration/splitting_up
-                        -- ref 2. https://astronvim.github.io/Configuration/config_option
                         { "tmhedberg/SimpylFold" },
-                        -- { "andweeb/presence.nvim" },
-                        -- {
-                        --   "ray-x/lsp_signature.nvim",
-                        --   event = "BufRead",
-                        --   config = function()
-                        --     require("lsp_signature").setup()
-                        --   end,
-                        -- },
 
-                        -- We also support a key value style plugin definition similar to NvChad:
-                        -- ["ray-x/lsp_signature.nvim"] = {
-                        --   event = "BufRead",
-                        --   config = function()
-                        --     require("lsp_signature").setup()
-                        --   end,
-                        -- },
+                        -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#Python
+                        { "mfussenegger/nvim-dap" },
                 },
                 -- All other entries override the require("<key>").setup({...}) call for default plugins
                 ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
@@ -281,7 +276,8 @@ local config = {
                 },
                 -- use mason-lspconfig to configure LSP installations
                 ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
-                        ensure_installed = { "sumneko_lua", "pylsp" },
+                        ensure_installed = { "sumneko_lua" },
+                        -- ensure_installed = { "sumneko_lua", "pylsp" },
                 },
                 -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
                 ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
