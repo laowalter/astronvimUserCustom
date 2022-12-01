@@ -138,7 +138,8 @@ local config = {
                 -- enable servers that you already have installed without mason
                 servers = {
                         "gopls",
-                        "pylsp"
+                        "pylsp",
+                        --"pyright"
                 },
                 formatting = {
                         -- control auto formatting on save
@@ -183,6 +184,11 @@ local config = {
                 -- Add overrides for LSP server settings, the keys are the name of the server
                 ["server-settings"] = {
                         pylsp = {
+                                -- cmd = { "pylsp",
+                                --         "--ws",
+                                --         "--host", "localhost",
+                                --         "--port", "12343",
+                                -- },
                                 settings = {
                                         pylsp = {
                                                 plugins = {
@@ -226,17 +232,17 @@ local config = {
                         -- quick save
                         -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
 
-                        -- dap (debug) config
-                        ["<F5>"] = { "<Cmd>lua require'dap'.continue()<CR>", desc = "Start debugging" },
-                        ["<F10>"] = { "<Cmd>lua require'dap'.step_over()<CR>", desc = "Step over" },
-                        ["<F11>"] = { "<Cmd>lua require'dap'.step_into()<CR>", desc = "Step into" },
-                        ["<F12>"] = { "<Cmd>lua require'dap'.step_out()<CR>", desc = "Step out" },
-                        ["<Leader>b"] = { "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", desc = "Toggle break" },
-                        ["<Leader>B"] = { "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-                                desc = "Set breakpoint condition" },
-                        ["<Leader>lp"] = { "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
-                                desc = "Log point message" },
-                        ["<Leader>dl"] = { " <Cmd>lua require'dap'.run_last()<CR>", desc = "Run last" }
+                        -- -- dap (debug) config
+                        -- ["<F5>"] = { "<Cmd>lua require'dap'.continue()<CR>", desc = "Start debugging" },
+                        -- ["<F10>"] = { "<Cmd>lua require'dap'.step_over()<CR>", desc = "Step over" },
+                        -- ["<F11>"] = { "<Cmd>lua require'dap'.step_into()<CR>", desc = "Step into" },
+                        -- ["<F12>"] = { "<Cmd>lua require'dap'.step_out()<CR>", desc = "Step out" },
+                        -- ["<Leader>b"] = { "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", desc = "Toggle break" },
+                        -- ["<Leader>B"] = { "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+                        --         desc = "Set breakpoint condition" },
+                        -- ["<Leader>lp"] = { "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
+                        --         desc = "Log point message" },
+                        -- ["<Leader>dl"] = { " <Cmd>lua require'dap'.run_last()<CR>", desc = "Run last" }
                 },
                 t = {
                         -- setting a mapping to false will disable it
