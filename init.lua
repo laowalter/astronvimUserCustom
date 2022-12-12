@@ -260,7 +260,7 @@ local config = {
                         { "tmhedberg/SimpylFold" },
 
                         -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#Python
-                        { "mfussenegger/nvim-dap" },
+                        -- { "mfussenegger/nvim-dap" },
                 },
                 -- All other entries override the require("<key>").setup({...}) call for default plugins
                 ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
@@ -289,7 +289,32 @@ local config = {
                 ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
                         -- ensure_installed = { "prettier", "stylua" },
                 },
+
+                heirline = function(config)
+                        -- config[1] = {
+                        --         hl = { fg = "fg", bg = "bg" },
+                        --         astronvim.status.component.mode(),
+                        --         astronvim.status.component.git_branch(),
+                        --         astronvim.status.component.file_info {
+                        --                 filename = { modify = ":." },
+                        --         },
+                        --         astronvim.status.component.git_diff(),
+                        --         astronvim.status.component.diagnostics(),
+                        --         astronvim.status.component.fill(),
+                        --         astronvim.status.component.macro_recording(),
+                        --         astronvim.status.component.fill(),
+                        --         astronvim.status.component.lsp(),
+                        --         astronvim.status.component.treesitter(),
+                        --         astronvim.status.component.nav(),
+                        --         astronvim.status.component.mode { surround = { separator = "right" } },
+                        -- }
+
+                        config[1][3] = astronvim.status.component.file_info { filename = { modify = ":." } }
+
+                        return config
+                end,
         },
+
 
         -- LuaSnip Options
         luasnip = {
