@@ -309,7 +309,7 @@ local config = {
                         --         astronvim.status.component.mode { surround = { separator = "right" } },
                         -- }
 
-                        config[1][3] = astronvim.status.component.file_info { filename = { modify = ":." } }
+                        config[1][3] = astronvim.status.component.file_info { filename = { modify = ":~" } } -- ":~" means start from home
 
                         return config
                 end,
