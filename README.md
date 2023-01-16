@@ -18,7 +18,13 @@ https://astronvim.github.io/
 ```bash
 $ git config --global --add url."git@github.com:".insteadOf "https://github.com/"
 $ git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
-$ nvim +PackerSync
+$ nvim
+$ # Do NOT use nvim +PackerSync from command line
+$ # Just open nvim and install :PackerSync command.
+$ # Be SURE to wait until all the packages completely installed.
+```
+
+```bash
 $ git clone git@github.com:laowalter/astronvimUserCustom.git ~/.config/nvim/lua/user
 ```
 
@@ -26,60 +32,45 @@ $ git clone git@github.com:laowalter/astronvimUserCustom.git ~/.config/nvim/lua/
 
 #### Install python lsp server
 
+lsp + autoformat on save.
+
 ```neovim
-:LspInstall pyls 
-```
-
-#### A language
-
-1. lsp server 
-  ```neovim
-  :LspInstall pyls 
-  ```
-
-2. Language parser
-  
-  ```neovim
-  :TSInstall python
-  ```
-3. Custom config in ~/.config/nvim/lua/user/init.lua
-  
-  See the init.lua line between 192 and 204.
-
-### Feature
-
-  - File explorer with **Neo-tree**
-  - Autocompletion with **Cmp**
-  - Git integration with **Gitsigns**
-  - Statusline with **Heirline**
-  - Terminal with **Toggleterm**
-  - Fuzzy finding with **Telescope**
-  - Syntax highlighting with **Treesitter**
-  - Formatting and linting with **Null-ls**
-  - Language Server Protocol with *Navtive lspConfig*
-
-### mysetup
-
-MasonInstall python-lsp-serverMason 
-MasonInstall lua-language-server
-
-
-### Understanding Manual[https://astronvim.github.io/Recipes/advanced_lsp]
+1. TSInstall python
+1. Use Mason to install python-lsp-server
+2. pip install pycodestyle 
+3. set pycodestyle in user/init.lua
+  -- Add overrides for LSP server settings, the keys are the name of the server
+  ["server-settings"] = {
+      pylsp = {
+          settings = {
+              pylsp = {
+                  plugins = {
+                      pycodestyle = {
+                          ignore = { 'W391', 'W503' },
+                          maxLineLength = 160
+                      }
+                  }
+              }
+          }
+      }
+  },
 
 ```
-return {
+
+### how file full path on status line.
+
+```/usr/init.lua
+-- Configure plugins
+plugins = {
+  init = {
+    ....
+  }
+
+  -- Config to show file full path on status line.
+  heirline = function(config)
+      config[1][3] = astronvim.status.component.file_info { filename = { modify = ":~" } }
+      return config
+  end
 }
-```
-
-in user/init.lua means:
-
 
 ```
-local config = {
-
-}
-return config
-```
-
-
-After Install flake8, with LspInfo can show null-ls worked as an attach server.
