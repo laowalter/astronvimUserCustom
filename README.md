@@ -74,3 +74,14 @@ plugins = {
 }
 
 ```
+
+### Finally
+
+start up nvim:
+
+use :Parksync to install simpolfold add in user/init.lua
+use :TSinstall to install python bash c
+use :Mason to install:
+
+1. python-lsp-server
+2. autopep8
