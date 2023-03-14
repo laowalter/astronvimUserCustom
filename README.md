@@ -59,21 +59,7 @@ lsp + autoformat on save.
 
 ### how file full path on status line.
 
-```/usr/init.lua
--- Configure plugins
-plugins = {
-  init = {
-    ....
-  }
-
-  -- Config to show file full path on status line.
-  heirline = function(config)
-      config[1][3] = astronvim.status.component.file_info { filename = { modify = ":~" } }
-      return config
-  end
-}
-
-```
+1. plugins/init.lua
 
 ### Finally
 
