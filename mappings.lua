@@ -7,12 +7,18 @@ return {
   -- first key is the mode
   n = {
     -- second key is the lefthand side of the map
+    -- ["z0"] = { "<cmd>set foldlevel=0<cr><Esc>" },
+    -- ["z1"] = { "<cmd>set foldlevel=1<cr><Esc>" },
+    -- ["z2"] = { "<cmd>set foldlevel=2<cr><Esc>" },
+    -- ["z3"] = { "<cmd>set foldlevel=3<cr><Esc>" },
     -- mappings seen under group name "Buffer"
     ["<leader>bn"] = { "<cmd>tabnew<cr>", desc = "New tab" },
     ["<leader>bD"] = {
       function()
-        require("astronvim.utils.status").heirline.buffer_picker(function(bufnr) require("astronvim.utils.buffer").close(
-          bufnr) end)
+        require("astronvim.utils.status").heirline.buffer_picker(function(bufnr)
+          require("astronvim.utils.buffer").close(
+            bufnr)
+        end)
       end,
       desc = "Pick to close",
     },

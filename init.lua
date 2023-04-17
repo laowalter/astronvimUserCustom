@@ -17,7 +17,17 @@ return {
     },
   },
   -- Set colorscheme to use
-  colorscheme = "astrodark",
+  -- colorscheme = "astrodark",
+  colorscheme = "sonokai",
+  plugins = {
+    {
+      "sainnhe/sonokai",
+      init = function() -- init function runs before the plugin is loaded
+        -- vim.g.sonokai_style = "Atlantis"
+        vim.g.sonokai_style = "Maia"
+      end,
+    },
+  },
   -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   diagnostics = {
     virtual_text = true,

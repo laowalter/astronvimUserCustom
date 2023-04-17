@@ -9,7 +9,7 @@ return {
   --     require("lsp_signature").setup()
   --   end,
   -- },
-  -- { "tmhedberg/SimpylFold" },
+  { "sainnhe/sonokai" }, -- installed by me.
 
   {
     "rebelot/heirline.nvim",
