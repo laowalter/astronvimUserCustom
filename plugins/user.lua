@@ -12,6 +12,17 @@ return {
   { "sainnhe/sonokai" }, -- installed by me.
 
   {
+    'glepnir/template.nvim',
+    cmd = { 'Template' },
+    config = function()
+      require('template').setup({
+        temp_dir = "~/.config/nvim/lua/user/templates/",
+        author = "Walter Guo",
+        email = "Walter@eliglad.com"
+      })
+    end
+  },
+  {
     "rebelot/heirline.nvim",
     opts = function(_, opts)
       local status = require("astronvim.utils.status")
