@@ -50,11 +50,11 @@ class IntraDayStrategy(ExtendCtaTemplate):
         # 这是通过self.on_5min_bar()中self.am_5min.update_bar()来实现的。在ArrayManager的函数update_bar()中，每收到一个bar，
         # 就会把这个bar添加到一个定长的数组中，由于长度固定，后面进，最早的就丢掉了。
 
-        self.bg_min = ExtendBarGenerator(self.on_bar, window=5, on_window_bar=self.on_min_bar, interval=Interval.MINUTE)
+        self.bg_min = ExtendBarGenerator(self.on_bar, window=5, on_window_bar=self.on_mins_bar, interval=Interval.MINUTE)
         self.am_mins = ExtendArrayManager(size=300)
         self.am_mins_heikin = ExtendArrayManager(size=300)
 
-        self.bg_hr = ExtendBarGenerator(self.on_bar, window=1, on_window_bar=self.on_hr_bar, interval=Interval.HOUR)
+        self.bg_hr = ExtendBarGenerator(self.on_bar, window=1, on_window_bar=self.on_hrs_bar, interval=Interval.HOUR)
         self.am_hrs = ExtendArrayManager(size=50)
         self.am_hrs_heikin = ExtendArrayManager(size=50)
 
@@ -91,7 +91,7 @@ class IntraDayStrategy(ExtendCtaTemplate):
         self.bg_min.update_bar(bar)
         self.bg_hr.update_bar(bar)
 
-    def on_min_bar(self, bar: BarData):
+    def on_mins_bar(self, bar: BarData):
         """"""
         self.cancel_all()
 
@@ -102,6 +102,18 @@ class IntraDayStrategy(ExtendCtaTemplate):
         if not self.am_5min.inited:
             return
 
+        self.put_event()
+
+    def on_hrs_bar(self, bar: BarData):
+        """"""
+        self.am_hrs.update_bar(bar)
+        heikinBar = self.heikin_ashi(bar)
+        self.am_hrs_heikin.update_bar(heikinBar)
+
+        if not self.am1Hr.inited:
+            return
+
+        self._trading(bar, heikinBar)
         self.put_event()
 
     def _trading(self, bar: BarData, heikinBar: BarData):
@@ -139,18 +151,6 @@ class IntraDayStrategy(ExtendCtaTemplate):
         }
 
         self.draw_to_db(data)
-
-    def on_hr_bar(self, bar: BarData):
-        """"""
-        self.am_hrs.update_bar(bar)
-        heikinBar = self.heikin_ashi(bar)
-        self.am_hrs_heikin.update_bar(heikinBar)
-
-        if not self.am1Hr.inited:
-            return
-
-        self._trading(bar, heikinBar)
-        self.put_event()
 
     def on_order(self, order: OrderData):
         """
