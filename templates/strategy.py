@@ -13,6 +13,7 @@ from vnpy.trader.constant import Interval
 
 from vnpy_ctastrategy.base import Offset
 # from vnpyExtend.extendArrayManager_walter import ExtendArrayManager
+from vnpyExtend.extendBarData import TradeType
 from vnpyExtend.extendArrayManager import ExtendArrayManager
 from vnpyExtend.extendBarGenerator import ExtendBarGenerator
 from vnpyExtend.extendCtaTemplate import ExtendCtaTemplate
@@ -62,7 +63,7 @@ class IntraDayStrategy(ExtendCtaTemplate):
         Callback when strategy is inited.
         """
         self.write_log("策略初始化")
-        self.load_bar(20)  # 5天
+        self.load_bar(20)  # 20天
 
     def on_start(self):
         """
@@ -104,6 +105,18 @@ class IntraDayStrategy(ExtendCtaTemplate):
         self.put_event()
 
     def _trading(self, bar: BarData, heikinBar: BarData):
+        """交易执行"""
+        self.cancel_all()
+
+        # 计算指标, 选择下面之一
+        # am = self.am_mins
+        # am = self.am_hrs
+
+        # 买卖交易
+        # self.trade(TradeType.BUY, price, size, comments)
+        # self.trade(TradeType.SELL, price, size, comments)
+        # self.trade(TradeType.SHORT, price, size, comments)
+        # self.trade(TradeType.COVER, price, size, comments)
 
         data = {
             'gateway_name': bar.gateway_name,
