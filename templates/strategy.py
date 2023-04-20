@@ -20,14 +20,13 @@ from vnpyExtend.extendCtaTemplate import ExtendCtaTemplate
 
 class IntraDayStrategy(ExtendCtaTemplate):
     """
-    创建时间:{{_date_}}
+    创建时间: {{_date_}}
     作者: {{_author_}}, {{_email_}}
-    策略名称:中文/English
+    策略名称: {{_cursor_}}
     交易逻辑:
     """
     author = '{{_author_}}'
 
-    {{_cursor_}}
     parameters = []
     variables = []
 
@@ -35,13 +34,28 @@ class IntraDayStrategy(ExtendCtaTemplate):
         """"""
         super().__init__(cta_engine, strategy_name, vt_symbol, setting)
 
-        self.bg5 = ExtendBarGenerator(self.on_bar, window=5, on_window_bar=self.on_5min_bar, interval=Interval.MINUTE)
-        self.am5 = ExtendArrayManager(size=300)
-        self.am5_heikin = ExtendArrayManager(size=300)
+        # 通过BarGenerator创建一个instance，其命名通常为bg前缀, 在实盘时，策略引擎调用策略后，首先会调用策略文件中的
+        # on_tick()，用实例bg调用方法update_tick(tick)将tick数据合成k线，update_tick根据tick的时间标签判断是否满足
+        # 1min（Interval.MINUTE) 或者 1hr(Interval=HOUR)。一旦合成完成将会回调策略函数中on_bar()，这样，在策略中，
+        # BarGeneratord的参数interval如果是MINUTE，on_bar就是1分钟k线出现的时刻，如果是HOUR，那么on_bar()就是1小时k线
+        # 出现的时刻。在回测时，on_tick()是不被调用的，回测引擎直接调用on_bar()。
 
-        self.bg1Hr = ExtendBarGenerator(self.on_bar, window=2, on_window_bar=self.on_hr_bar, interval=Interval.HOUR)
-        self.am1Hr = ExtendArrayManager(size=50)
-        self.am1Hr_heikin = ExtendArrayManager(size=50)
+        # 下面代码中self.bg_min的命名min只是表示Interval是分钟的k线合成的BarGenerator的实例，无其他特别的意义。
+        # 同样，self.bg_hr命名为Hr也只代表Interval小时线的k线合成的BarGenerator的实例，便于区分。
+
+        # 每调用一次on_bar()，把最新获得的单位k线(1mi/1hr)送到 update_bar()中合成多周期k线，具体周期由window确定。
+        # 对于指标计算，self.am_min则表示window=对应的ArrayManager实例。当每次k线在BarGenerator中按照on_window_bar
+        # 的设置合成一根时间周期为on_window_bar的k线之后，就通过self.am_5min把这个新生成的bar送给其方法update_bar()，
+        # 这是通过self.on_5min_bar()中self.am_5min.update_bar()来实现的。在ArrayManager的函数update_bar()中，每收到一个bar，
+        # 就会把这个bar添加到一个定长的数组中，由于长度固定，后面进，最早的就丢掉了。
+
+        self.bg_min = ExtendBarGenerator(self.on_bar, window=5, on_window_bar=self.on_min_bar, interval=Interval.MINUTE)
+        self.am_mins = ExtendArrayManager(size=300)
+        self.am_mins_heikin = ExtendArrayManager(size=300)
+
+        self.bg_hr = ExtendBarGenerator(self.on_bar, window=1, on_window_bar=self.on_hr_bar, interval=Interval.HOUR)
+        self.am_hrs = ExtendArrayManager(size=50)
+        self.am_hrs_heikin = ExtendArrayManager(size=50)
 
     def on_init(self):
         """
@@ -66,25 +80,25 @@ class IntraDayStrategy(ExtendCtaTemplate):
         """
         Callback of new tick data update.
         """
-        self.bg5.update_tick(tick)
-        self.bg1Hr.update_bar(tick)
+        self.bg_min.update_tick(tick)
+        self.bg_hr.update_bar(tick)
 
     def on_bar(self, bar: BarData):
         """
         Callback of new bar data update.
         """
-        self.bg5.update_bar(bar)
-        self.bg1Hr.update_bar(bar)
+        self.bg_min.update_bar(bar)
+        self.bg_hr.update_bar(bar)
 
-    def on_5min_bar(self, bar: BarData):
+    def on_min_bar(self, bar: BarData):
         """"""
         self.cancel_all()
 
-        self.am5.update_bar(bar)
+        self.am_mins.update_bar(bar)
         heikinBar = self.heikin_ashi(bar)
-        self.am5_heikin.update_bar(heikinBar)
+        self.am_mins_heikin.update_bar(heikinBar)
 
-        if not self.am5.inited:
+        if not self.am_5min.inited:
             return
 
         self.put_event()
@@ -115,9 +129,9 @@ class IntraDayStrategy(ExtendCtaTemplate):
 
     def on_hr_bar(self, bar: BarData):
         """"""
-        self.am1Hr.update_bar(bar)
+        self.am_hrs.update_bar(bar)
         heikinBar = self.heikin_ashi(bar)
-        self.am1Hr_heikin.update_bar(heikinBar)
+        self.am_hrs_heikin.update_bar(heikinBar)
 
         if not self.am1Hr.inited:
             return
