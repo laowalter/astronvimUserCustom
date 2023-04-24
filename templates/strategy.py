@@ -55,44 +55,34 @@ class IntraDayStrategy(ExtendCtaTemplate):
         self.am_mins_heikin = ExtendArrayManager(size=300)
 
         self.bg_hr = ExtendBarGenerator(self.on_bar, window=1, on_window_bar=self.on_hrs_bar, interval=Interval.HOUR)
-        self.am_hrs = ExtendArrayManager(size=50)
-        self.am_hrs_heikin = ExtendArrayManager(size=50)
+        self.am_hrs = ExtendArrayManager(size=100)
+        self.am_hrs_heikin = ExtendArrayManager(size=100)
 
     def on_init(self):
-        """
-        Callback when strategy is inited.
-        """
+        """ Callback when strategy is inited. """
         self.write_log("策略初始化")
         self.load_bar(20)  # 20天
 
     def on_start(self):
-        """
-        Callback when strategy is started.
-        """
+        """ Callback when strategy is started. """
         self.write_log("策略启动")
 
     def on_stop(self):
-        """
-        Callback when strategy is stopped.
-        """
+        """ Callback when strategy is stopped. """
         self.write_log("策略停止")
 
     def on_tick(self, tick: TickData):
-        """
-        Callback of new tick data update.
-        """
+        """ Callback of new tick data update. """
         self.bg_min.update_tick(tick)
         self.bg_hr.update_bar(tick)
 
     def on_bar(self, bar: BarData):
-        """
-        Callback of new bar data update.
-        """
+        """cta_engine每分钟回调一次"""
         self.bg_min.update_bar(bar)
         self.bg_hr.update_bar(bar)
 
     def on_mins_bar(self, bar: BarData):
-        """"""
+        """BarGenerator回调函数分钟级别"""
         self.cancel_all()
 
         self.am_mins.update_bar(bar)
@@ -105,7 +95,7 @@ class IntraDayStrategy(ExtendCtaTemplate):
         self.put_event()
 
     def on_hrs_bar(self, bar: BarData):
-        """"""
+        """BarGenerator回调函数小时级别"""
         self.am_hrs.update_bar(bar)
         heikinBar = self.heikin_ashi(bar)
         self.am_hrs_heikin.update_bar(heikinBar)
