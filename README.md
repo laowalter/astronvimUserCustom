@@ -1,17 +1,17 @@
-# astronvimUserCustom 
+# astronvimUserCustom
 
 https://astronvim.github.io/
 
 ## Install astronvim
- 
+
 ### Prepare
 
-  ```
-  $ emerge rgrep
-  $ rm -fr ~/.local/share/nvim
-  $ rm -fr ~/.cache/nvim
-  $ rm -fr ~/.config/nvim
-  ```
+```
+$ emerge rgrep
+$ rm -fr ~/.local/share/nvim
+$ rm -fr ~/.cache/nvim
+$ rm -fr ~/.config/nvim
+```
 
 ### Install
 
@@ -30,44 +30,30 @@ $ git clone git@github.com:laowalter/astronvimUserCustom.git ~/.config/nvim/lua/
 
 ### Basic Setup
 
-#### Install python lsp server
-
-lsp + autoformat on save.
-
-```neovim
-1. TSInstall python
-1. Use Mason to install python-lsp-server
-2. pip install pycodestyle 
-3. set pycodestyle in user/init.lua
-  -- Add overrides for LSP server settings, the keys are the name of the server
-  ["server-settings"] = {
-      pylsp = {
-          settings = {
-              pylsp = {
-                  plugins = {
-                      pycodestyle = {
-                          ignore = { 'W391', 'W503' },
-                          maxLineLength = 160
-                      }
-                  }
-              }
-          }
-      }
-  },
-
-```
-
-### how file full path on status line.
-
-1. plugins/init.lua
-
 ### Finally
 
 start up nvim:
 
-use :Parksync to install simpolfold add in user/init.lua
-use :TSinstall to install python bash c
-use :Mason to install:
+#### use :Mason to install the following:
 
-1. python-lsp-server
-2. autopep8
+- autopep8
+- bash-language-server
+- codespell
+- debuggpy
+- gopls
+- html-lsp
+- lua-language-server
+- misspell
+- prettier
+- python-lsp-server
+- stylua
+
+#### use :TSInstall to install the following:
+
+- c
+- python
+- bash
+- html
+- javascript
+- go
+- markdown
