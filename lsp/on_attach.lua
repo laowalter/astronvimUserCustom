@@ -4,13 +4,15 @@
 -- https://github.com/ray-x/lsp_signature.nvim
 
 -- return function(client, bnfnr)
--- end
-
+-- }, bufnr)
 return function()
-  require('lsp_signature').on_attach({
+  require("lsp_signature").on_attach {
+    -- detailed config info: readme.md of homepage.
     bind = true,
     handler_opts = {
-      border = "rounded"
-    }
-  })
+      border = "rounded",
+    },
+    hint_prefix = "", -- or if hint_prefix=enable, install emoji font like noto-emoji
+    hint_enable = false,
+  }
 end
