@@ -10,9 +10,12 @@ return function()
     -- detailed config info: readme.md of homepage.
     bind = true,
     handler_opts = {
-      border = "rounded",
+      border = "shadow", -- rounded
     },
     hint_prefix = "", -- or if hint_prefix=enable, install emoji font like noto-emoji
     hint_enable = false,
+    always_trigger = false, --sometime show signature on new line or in middle of parameter can be confusing
+    floating_window = false,
+    toggle_key = "<C-S-Space>",
   }
 end
