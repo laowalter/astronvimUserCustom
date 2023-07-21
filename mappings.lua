@@ -33,6 +33,7 @@ return {
   },
   i = {
     -- walter add breakpoint to python
+    ["js"] = { "<Esc>:w<cr>", desc = "Save File" }, -- change description but the same command
     -- ["ib"] = { "breakpoint()<Esc>:w<cr>" },
   },
 }

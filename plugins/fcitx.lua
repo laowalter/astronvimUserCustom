@@ -1,8 +1,18 @@
 return {
-  {
-    "lilydjwg/fcitx.vim",
-    init = function() -- init function runs before the plugin is loaded
-      vim.g.fcitx5_remote = 1
-    end,
-  },
+  "pysan3/fcitx5.nvim",
+  cond = vim.fn.executable "fcitx5-remote" == 1,
+  event = { "ModeChanged" },
+
+  config = function()
+    local en = "keyboard-us"
+    local cn = "pinyin"
+    require("fcitx5").setup {
+      imname = {
+        norm = en,
+        ins = en,
+        cmd = en,
+      },
+      remember_prior = true,
+    }
+  end,
 }
