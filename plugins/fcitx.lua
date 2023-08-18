@@ -1,5 +1,6 @@
 return {
   "pysan3/fcitx5.nvim",
+  -- cmd = {},
   cond = vim.fn.executable "fcitx5-remote" == 1,
   event = { "ModeChanged" },
 
@@ -12,7 +13,9 @@ return {
         ins = en,
         cmd = en,
       },
-      remember_prior = true,
+      remember_prior = false,
+      define_autocmd = true,
+      autostart_fcitx5 = false,
     }
   end,
 }
